@@ -23,9 +23,8 @@ stages:
 
     
     steps:
-    - task:
-      checkout: self
-      Deepfetch: 0
+    - checkout: self
+      fetchDepth: 0
     - task: NuGetToolInstaller@1
 
     - task: NuGetCommand@2
@@ -43,6 +42,12 @@ stages:
       inputs:
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
 
 - stage: Deploy
   displayName: 'Delpoy-stage'
